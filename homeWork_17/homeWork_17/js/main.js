@@ -21,7 +21,7 @@ let deletElement = (arrey, item) => arrey.splice(item - 1,1);
 //Edit the key 'url' of an arrey.
 let editUrl = url => {
     var protocol = "http://";
-    var fragment = url.substring(0,6);
+    var fragment = url.substring(0,7);
     return (protocol === fragment||url === error) ? url : protocol + url;
 }
 //Edit the key 'name' of an arrey. 
@@ -54,7 +54,7 @@ let modifyArrey = data => {
     });
 }   
 //Test an object.key for errors.
-let testKey = (item) => (item)? item :error; 
+let testKey = (item) => (item) ? item : error; 
 //Print result.
 let printResult = (result) => console.log(result);
 
