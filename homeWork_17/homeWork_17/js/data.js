@@ -1,7 +1,7 @@
 // Это реальный объект на основе которого вам надо дудет строить галлерею
 var data = [{
 	url: "http://desktopwallpapers.org.ua/mini/201507/40069.jpg",
-	name: "lada",
+	name: "CHEVROLET",
 	id : 1,
 	params: {
 		status: true,
