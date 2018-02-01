@@ -9,16 +9,25 @@
           secondGroup = document.querySelector('.second-group').classList,
           thirdGroup = document.querySelector('.third-group').classList;
 
-    var quantity, variant, quantityResult;
-    var newArrey = [], editArrey = [], list = [];   
-    var parentDiv,img,div,firstDiv,secondDiv,thirdDiv,last;
-    var error = "Data faild";
-    var child; document.querySelector('.parentDiv');
+    var newArray = [], 
+        editArray = [], 
+        list = [], 
+        quantity, 
+        variant, 
+        quantityResult,
+        parentDiv,
+        img,
+        div,
+        firstDiv,
+        secondDiv,
+        thirdDiv,
+        last,
+        error = "Data faild";
 
     //Cортировка входящего масива данных.
-    let sortArrey = data =>{
-        data.forEach(item =>{
-            newArrey.push({
+    let sortArray = data => {
+        data.forEach(item => {
+            newArray.push({
                 url: item.url,
                 name : item.name,
                 description : item.description,
@@ -48,7 +57,7 @@
     //Проверка data.js на отсутсвие значения ключа.
     let testKey = (item) => (item) ? item : error; 
 
-    let modifyArrey = data => {
+    let modifyArray = data => {
         return data.map((item) => {
             return {
                 url: editUrl(testKey(item.url)),
@@ -63,45 +72,37 @@
     let getVariant = () => variant = document.querySelector("#type-selector").value;
     
     // Определение нужного количества картинок для вывода.
-    let setQuantity = (number) =>{
+    let setQuantity = (number) => {
         switch(number){
-            case "0": return editArrey.length;
-            break;
+            case "0": return editArray.length;
+                break;
             case "1": return 3;
-            break;
+                break;
             case "2": return 6;
-            break;
+                break;
             default:
             null;
         }
     }
     //Определение методы вывода картинокю
-    let determineMethod = param =>{
+    let determineMethod = param => {
         switch(param){
             case "1": runReplace();
-            break;
+                break;
             case "2": runString();
-            break;
+                break;
             case "3": runHtmlElements();
-            break;
+                break;
             default:
             document.removeEventListener("click", init);
         }
     }
     //Создание нового массива нужной длины.
-    let cutEditArrey = (arrey,number) => {
+    let cutEditArray = (array,number) => {
         let newList = [];
-        newList = [... arrey];
+        newList = [... array];
         list = newList.splice(0,number);
-    }
-
-    //Второй вариант создания массива нужнойдлины.
-    /*let cutEditArrey = (arrey,number) =>{
-        let i = "";
-        for(i = 0; i < number; i++){
-            list.push(arrey[i]);
-        }
-    }*/
+    }  
     //Метод "Replace"
      let setReplaceItemTemplate = () => { 
         return `<div class="col-sm-3 col-xs-6">\
@@ -113,18 +114,18 @@
         </div>\
         </div>`;
     }
-    let getReplaceResult = (arrey,template) =>{
-        return arrey.map(item =>{
+    let getReplaceResult = (array,template) => {
+        return array.map(item => {
             return template
-            .replace(/\$name/gi, item.name)
-            .replace("$url", item.url)
-            .replace("$description", item.description)
-            .replace("$date", item.date); 
+                .replace(/\$name/gi, item.name)
+                .replace("$url", item.url)
+                .replace("$description", item.description)
+                .replace("$date", item.date); 
         })
     }
     //Метод "Щаблонные строки"
-    let setStringResult = arrey =>{
-        return arrey.map(item =>{
+    let setStringResult = array => {
+        return array.map(item => {
             return `<div class="col-sm-3 col-xs-6">\
             <img src="${item.url}" alt="${item.name}" class="img-thumbnail">\
             <div class="info-wrapper">\
@@ -134,11 +135,9 @@
             </div>\
             </div>`;
         })
-    }
-
-   
+    }  
     //Функция удаляет "div" элементы при повторном вызове метода "createHtmlElements".
-    let clearHtmlElements = () =>{
+    let clearHtmlElements = () => {
         let children = thirdBlock.children;
         if(children.length > 0){
             let i;
@@ -152,7 +151,7 @@
     }
     //Метод "create Element"
     let createHtmlElements = (arrey) =>{
-        return arrey.map(item => {
+        arrey.forEach(item => {
             parentDiv = document.createElement("Div");
             parentDiv.className = "col-sm-3 col-xs-6 parentDiv";
             img = document.createElement("Img");
@@ -177,29 +176,28 @@
             last.lastElementChild.appendChild(firstDiv);
             last.lastElementChild.appendChild(secondDiv);
             last.lastElementChild.appendChild(thirdDiv);
-            return;
         })
     }
     
-    let runString = () =>{
+    let runString = () => {
         let stringResult = setStringResult(list)
         printResult(stringResult,secondBlock); 
     }  
 
-    let runReplace = () =>{
+    let runReplace = () => {
         let replaceItemTemplate = setReplaceItemTemplate()
         let replaceResult = getReplaceResult(list,replaceItemTemplate);
         printResult(replaceResult,firstBlock);
     }
 
-    let runHtmlElements = () =>{ 
+    let runHtmlElements = () => { 
         clearHtmlElements();
         createHtmlElements(list);
     }
            
     let printResult = (result,block) => block.innerHTML = result;
     
-    //Функция которая прячет блоки.
+    //Функция прячет блоки.
     let hideGroup = () =>{
         (firstGroup.contains("show")) ? (firstGroup.remove("show") || firstGroup.add("hide")) : (firstGroup.add("hide"));
         (secondGroup.contains("show")) ? (secondGroup.remove("show") || secondGroup.add("hide")) : (secondGroup.add("hide"));
@@ -223,16 +221,19 @@
         document.querySelector("#line-selector").value = param; 
         document.querySelector("#type-selector").value = param;
     }
-    //Запуск функции которая сформирует массив из data.js
-    //Функция не выненена в init что бы не делать дополнительные итерации.
-    sortArrey(data)
-    editArrey = modifyArrey(newArrey);
+    //Функция формирует массив из data.js
+    let createArray = () => {
+        sortArray(data)
+        editArray = modifyArray(newArray);
+    }
+
+    createArray();
 
     function init() {
         getQuantity();
         getVariant();
         quantityResult = setQuantity(quantity);
-        cutEditArrey(editArrey, quantityResult);
+        cutEditArray(editArray, quantityResult);
         determineMethod(variant);
         hideGroup();
         displayGroup(variant);
