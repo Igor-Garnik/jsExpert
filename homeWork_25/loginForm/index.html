@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<title>Форма входа</title>
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+		
+		<link href="css/style.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+			<h5 class="my-0 mr-md-auto font-weight-normal">JSExpert</h5>
+			<nav class="my-2 my-md-0 mr-md-3">
+				<a class="p-2 text-dark" href="#">Главная</a>
+				<a class="p-2 text-dark" href="#">Галлерея</a>
+				<a class="p-2 text-dark" href="#">О компании</a>
+				<a class="p-2 text-dark" href="#">Курсы</a>
+			</nav>
+			<a class="btn btn-outline-primary" href="#">Войти</a>
+		</div>
+		<div class="alert alert-danger text-center alert-window hide" role="alert">
+			<h6 ></h6>
+		</div>
+		<main id="main" class="text-center" role="main">
+				<form class="form-signin">
+						<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+						<label for="inputEmail" class="sr-only">Email address</label>
+						<input type="text" id="inputEmail" class="form-control e-mail" placeholder="Email address"  autofocus=""  autocomplete="off">
+						<label for="inputPassword" class="sr-only">Password</label>
+						<input type="password" id="inputPassword" class="form-control password" placeholder="Password"  autocomplete="off">
+						<div class="checkbox mb-3 hide">
+								<label>
+										<input type="checkbox" value="remember-me"> Remember me
+								</label>
+						</div>
+						<input type="submit" id="submit" class="btn btn-lg btn-primary btn-block" value="Sign in"></button>
+						<p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+				</form>
+		</main>
+		<div class="contant new-Window  hide">
+	            <div class="control-panel">
+	                <h1 class="h3 font-weight-normal control-panel__title">Информация о пользователе</h1>
+	                <div class="fields-input">
+	                    <div class="item">
+	                        <p class="input-title">Логин</p>
+	                        <input type="text" id="otputEmail" class="form-control" placeholder="Email address" required="" autofocus="" autocomplete="off" value="">
+	                    </div>
+	                    <div class="item">
+	                        <p class="input-title">Пароль</p>
+	                        <input type="password" id="otputPassword" class="form-control" placeholder="Password" required="" autocomplete="off" value="">
+	                        <button id="btnShow" class="btn btn-lg btn-primary btn-block" type="button">Показать пароль</button>
+	                        <button id="btnComeBack" class="btn btn-lg btn-primary btn-block" type="button">Вернуться назад</button>
+	                    </div>
+	                </div>
+	                
+	            </div>
+        	</div>
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+		<script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
+		<script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+		<script src=js/userData.js></script>
+		<script src=js/service.js></script>
+	</body>
+</html>
+
