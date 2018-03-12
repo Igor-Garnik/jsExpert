@@ -8,8 +8,8 @@ let validationForm = (function () {
 	const newWindow = document.querySelector(".new-Window");
 	const inputPassword = document.querySelector("#otputPassword");
 	const inputEmail = document.querySelector("#otputEmail");
-	let log = "";
-	let pass = "";
+	const log = document.querySelector("#inputEmail");
+	const pass = document.querySelector("#inputPassword");
 	let regExp =  /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
 
 	let setLogAndPass = (element) =>  {
@@ -20,41 +20,42 @@ let validationForm = (function () {
 	}
 
 	let getLogAndPass = () => {
-		log = document.querySelector("#inputEmail").value;
-		pass = document.querySelector("#inputPassword").value;
+		let logAndPassData = {
+			log:log.value,
+			pass:pass.value
+		}
+		return logAndPassData;
 	}
-	
-	let validationLogAndPass = () => (log == localStorage.login && pass == localStorage.password) ? true : false;
 
-	let showError = (validation) => {
-		if(validation === true){
-			alertWindow.innerHTML = "";
-			return;
-		}
-		else if(log == "" && pass == ""){
+	let checkLogAndPass = (param) => {
+		alertWindow.innerHTML = "";
+		if(param.log == "" && param.pass == ""){
 			alertWindow.innerHTML = "Заполните email и password";
+			return false;
 		}
-		else if(!regExp.test(log)){
+		else if(!regExp.test(param.log)){
 			alertWindow.innerHTML = "Неверный формат email";
+			return false;
 		}
-		else if(log !== localStorage.login || pass !== localStorage.password){
+		else if(param.log !== localStorage.login || param.pass !== localStorage.password){
 			alertWindow.innerHTML = "Введен неверный email или password";
+			return false;
 		}
 		else {
-			return;
+			return true;
 		}
 	}
 
-	let showScreens = (validation) => (validation) ? showNewWindow() : showAlertWindow(showError(validation));
+	let showScreens = (result) => (result) ? showNewWindow() : showAlertWindow();
 
 	let showAlertWindow = () => alertWindow.classList.remove("hide");
              
 	let showNewWindow = () => {
-        	(!alertWindow.classList.contains("hide"))&&(alertWindow.classList.add("hide"));
+        	!alertWindow.classList.contains("hide")&&alertWindow.classList.add("hide");
 		main.classList.add('hide');
 		newWindow.classList.remove("hide");
-		inputEmail.value = log;
-		inputPassword.value = pass;
+		inputEmail.value = localStorage.getItem("login");
+		inputPassword.value = localStorage.getItem("password");
 	}
 	let showPassword = () => {
 		let type = inputPassword.getAttribute("type");
@@ -75,10 +76,8 @@ let validationForm = (function () {
 
 	let runComponent = (event) => {
 		event.preventDefault();
-		let validation = "";
-		getLogAndPass();
-		validation = validationLogAndPass()
-		showScreens(validation);
+		let result = checkLogAndPass(getLogAndPass())
+		showScreens(result);
 	}
 
 	let  initComponent = () => {	
