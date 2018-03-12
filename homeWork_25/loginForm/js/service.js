@@ -24,13 +24,13 @@ let validationForm = (function () {
 		if (log == "" && pass == "") {
 			alertWindow.innerHTML = "Заполните email и password";
 			return false;
-		}else if (!regExp.test(log)) {
+		} else if (!regExp.test(log)) {
 			alertWindow.innerHTML = "Неверный формат email";
 			return false;
-		}else if (log !== localStorage.login || pass !== localStorage.password) {
+		} else if (log !== localStorage.login || pass !== localStorage.password) {
 			alertWindow.innerHTML = "Введен неверный email или password";
 			return false;
-		}else {
+		} else {
 			return true;
 		}
 	}
@@ -53,7 +53,7 @@ let validationForm = (function () {
 		if (type == "password") {
 			inputPassword.type = "text";
 			btnShow.innerHTML = "Спрятать пароль";
-		}else {
+		} else {
 			inputPassword.type = "password";
 			btnShow.innerHTML = "Показать пароль";
 		}
