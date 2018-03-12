@@ -12,36 +12,25 @@ let validationForm = (function () {
 	const pass = document.querySelector("#inputPassword");
 	let regExp =  /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
 
-	let setLogAndPass = (element) =>  {
+	let setLogAndPass = (element) => {
 		element.forEach(item => {
 			localStorage.setItem("login", item.login);
 			localStorage.setItem("password", item.password);
 		})
 	}
 
-	let getLogAndPass = () => {
-		let logAndPassData = {
-			log:log.value,
-			pass:pass.value
-		}
-		return logAndPassData;
-	}
-
-	let checkLogAndPass = (param) => {
+	let checkLogAndPass = (log, pass) => {
 		alertWindow.innerHTML = "";
-		if(param.log == "" && param.pass == ""){
+		if (log == "" && pass == "") {
 			alertWindow.innerHTML = "Заполните email и password";
 			return false;
-		}
-		else if(!regExp.test(param.log)){
+		}else if (!regExp.test(log)) {
 			alertWindow.innerHTML = "Неверный формат email";
 			return false;
-		}
-		else if(param.log !== localStorage.login || param.pass !== localStorage.password){
+		}else if (log !== localStorage.login || pass !== localStorage.password) {
 			alertWindow.innerHTML = "Введен неверный email или password";
 			return false;
-		}
-		else {
+		}else {
 			return true;
 		}
 	}
@@ -51,7 +40,9 @@ let validationForm = (function () {
 	let showAlertWindow = () => alertWindow.classList.remove("hide");
              
 	let showNewWindow = () => {
-        	!alertWindow.classList.contains("hide")&&alertWindow.classList.add("hide");
+        	if (!alertWindow.classList.contains("hide")) {
+        		alertWindow.classList.add("hide");
+        	}
 		main.classList.add('hide');
 		newWindow.classList.remove("hide");
 		inputEmail.value = localStorage.getItem("login");
@@ -59,11 +50,10 @@ let validationForm = (function () {
 	}
 	let showPassword = () => {
 		let type = inputPassword.getAttribute("type");
-		if(type == "password"){
+		if (type == "password") {
 			inputPassword.type = "text";
 			btnShow.innerHTML = "Спрятать пароль";
-		}
-		else{
+		}else {
 			inputPassword.type = "password";
 			btnShow.innerHTML = "Показать пароль";
 		}
@@ -71,12 +61,12 @@ let validationForm = (function () {
 
 	let showLogInForm = () => {
 		newWindow.classList.add("hide"); 
-		(main.classList.remove("hide"));
+		main.classList.remove("hide");
 	}
 
 	let runComponent = (event) => {
 		event.preventDefault();
-		let result = checkLogAndPass(getLogAndPass())
+		let result = checkLogAndPass(log.value, pass.value)
 		showScreens(result);
 	}
 
@@ -86,8 +76,7 @@ let validationForm = (function () {
 		backBtn.addEventListener("click", showLogInForm);
 	}
 	return{
-		setLogAndPass : setLogAndPass,
-		initComponent : initComponent
+		setLogAndPass, initComponent
 	}
 })();
 validationForm.setLogAndPass(user);
