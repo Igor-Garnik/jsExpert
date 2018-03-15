@@ -41,10 +41,10 @@ let createGallary = (function(){
 //Установка счетчика
 	let getCounter = () => {
 		let length = data.length;
-		if (counter < length) {
-			counter++;
-		} else if (counter = length) { 
-			counter;
+		counter++;
+		if (counter > length) {
+			$("#myModal").modal('show');
+			counter = 10;
 		}
 		return counter;
 	}
@@ -66,6 +66,8 @@ let createGallary = (function(){
                   </div>`;
                 })
              block.innerHTML = stringResult;     
+             setQuantity(counter);
+             changeBtnColor(counter);
       }  
 	
 //Определениеметода сортировки
@@ -76,10 +78,12 @@ let createGallary = (function(){
 	   	let methodClass = event.target.getAttribute("date-type");
 		localStorage.setItem("method", methodClass);
 		buildGallary(transformData.applyMethod(methodClass, result)); 
-		showMessages(); 
+	
 	}
 
 //Удаление элементов и перенос в конец массива
+	let deleteItem = () => buildGallary(deleteElement(result));
+
 	let deleteElement = (array) => {
 		 let element = parseInt(event.target.getAttribute("number"));
 		 array.forEach((item, arr) => {
@@ -91,15 +95,13 @@ let createGallary = (function(){
 		})
 		 return array;
 	}
-	let deleteItem = () => buildGallary(deleteElement(result));
-
+//Перенос удаленного элемента в конец галереи
 	let moveDeletedItem = (array, amount) =>{
 		let deletedObject = [];
 		amount.forEach((elem) => {
 			array.forEach((item) => {
 				if (item.id == elem) {
-					deletedObject = array;
-					array.splice(item,1);
+					deletedObject = array.splice(item,1);
 					array = array.concat(deletedObject);
 				}  
 			})    
@@ -110,24 +112,12 @@ let createGallary = (function(){
 //Модальное окно, смена цвета кнопки и количество показаных картинок
 	let setQuantity = (counter) => quantity.innerHTML = `Добавлено картинок: ${counter}`;
 	let changeBtnColor = (counter) => (counter === 10) ? btn.setAttribute("style", "background-color:grey") : btn.removeAttribute("style"); 
-	let showModal = (counter) => {
-		if (counter === 10) {
-			$("#myModal").modal('show');
-		}
-	}
 	
-	let showMessages = () => {
-		setQuantity(counter);
-		changeBtnColor(counter);
-		showModal (counter)
-	}
-
 	let init = () => {
 		let method = localStorage.getItem("method")
 		let editArray = transformData.applyMethod(method, transformData.modifyArray(data));
 		result = transformData.cutEditArray(transformData.chooseArr(editArray, amount),getCounter());
 		buildGallary(result);
-		showMessages();
 	}  
 
 //Запуск приложения
