@@ -60,7 +60,8 @@ let validationForm = (function () {
 		backBtn.addEventListener("click", showLogInForm);
 	}
 	return{
-		setLogAndPass, initComponent
+		setLogAndPass : setLogAndPass, 
+		initComponent : initComponent
 	}
 })();
 validationForm.setLogAndPass(user);
