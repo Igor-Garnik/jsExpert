@@ -75,7 +75,7 @@ let createGallary = (function(){
 	       btnTarget.innerHTML = event.target.innerText;
 	   	let methodClass = event.target.getAttribute("date-type");
 		localStorage.setItem("method", methodClass);
-		buildGallary(applyMethod(method, result)); 
+		buildGallary(transformData.applyMethod(methodClass, result)); 
 		showMessages(); 
 	}
 
@@ -135,7 +135,7 @@ let createGallary = (function(){
 	runEventListeners();
 
 	return{
-		moveDeletedItem
+		moveDeletedItem : moveDeletedItem
 	}
 
 })()

@@ -20,7 +20,7 @@ let transformData = function () {
 
       let editDate = date => (date !== NaN) ? moment(date).format('YYYY/MM/DD HH:mm') : "Missing Data";
 
-      let chooseArr = (array, amount) => (amount.length === 0) ? array : main.moveDeletedItem(array, amount); 
+      let chooseArr = (array, amount) => (amount.length === 0) ? array : createGallary.moveDeletedItem(array, amount); 
 
       let cutEditArray = (array, counter) => array.splice(0,counter);
 
@@ -44,13 +44,13 @@ let transformData = function () {
              }
 
       return {
-            applyMethod,
-            sortNameAbc, 
-            sortNameZyx,  
-            sortDateAsc, 
-            sortDateDesc,
-            modifyArray,
-            chooseArr,
-            cutEditArray
+            applyMethod : applyMethod,
+            sortNameAbc : sortNameAbc,
+            sortNameZyx : sortNameZyx,
+            sortDateAsc : sortDateAsc,
+            sortDateDesc : sortDateDesc, 
+            modifyArray : modifyArray,
+            chooseArr : chooseArr,
+            cutEditArray : cutEditArray
       };
-}
+}();
