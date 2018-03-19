@@ -50,7 +50,8 @@ let validationForm = (function () {
 
 	let runComponent = (event) => {
 		event.preventDefault();
-		let result = userValidation.checkLogAndPass(log.value, pass.value, regExp, alertWindow)
+		let userValidation = new UserValidation (log.value, pass.value, regExp, alertWindow);
+		let result = userValidation.checkLogAndPass()
 		showScreens(result);
 	}
 
