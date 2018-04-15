@@ -6,10 +6,9 @@ let user = {
 };		
 
 let validatorModule = new Validator();
-
 //let galleryModule = new BaseGallery();
 let galleryModule = new ExtendedGallery();
-
 let loginModule = new LoginModule(validatorModule, galleryModule, user);
 loginModule.initComponent();
+  
       

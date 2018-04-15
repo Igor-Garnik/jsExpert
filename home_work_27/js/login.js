@@ -1,12 +1,14 @@
-
 "use strict";
-let service = new LoginService();
+
 let LoginModule = function (validatorModule, galleryModule, user) {	
 	this.validator = validatorModule;
 	this.gallery = galleryModule;
-    	this.user = user;
+  this.user = user;
 
-    	this.logInFormBtn = document.querySelector("#log-in-form");
+  this.service = window.service.service;
+  this.serviceUser = window.service.userService;
+
+  this.logInFormBtn = document.querySelector("#log-in-form");
 	this.showPasswordBtn = document.querySelector("#show-password");
 	this.logOutBtn = document.querySelector("#log-out-btn");
 	this.userDataBtn = document.querySelector(".user-data-window");
@@ -25,10 +27,11 @@ let LoginModule = function (validatorModule, galleryModule, user) {
 }
 
 LoginModule.prototype = {
-	initComponent : function ()  {
-		this.initListeners();
-		this.checkUser();
-		this.setLogAndPass(this.user);	
+	initComponent : function()  {
+    this.initListeners();
+    this.setLogAndPass(this.user);
+    this.showGallery();
+    this.ReEntry();
 	},
 
 	initListeners : function () {
@@ -36,21 +39,27 @@ LoginModule.prototype = {
 		this.logOutBtn.addEventListener("click", this.logOut.bind(this));
 		this.userDataBtn.addEventListener("click", this.showUserData.bind(this));
 		this.userGalleryBtn.addEventListener("click", this.showGalleryData.bind(this));
-		this.showPasswordBtn.addEventListener("click", this.showOrHidePassword.bind(this));
-	},
-
-	checkUser : function () { //проверка повторного входа.
-		(service.getLocalStorage("valid") !== null) && this.logIn();
+		this.showPasswordBtn.addEventListener("click", this.serviceUser.showOrHidePassword.bind(this));
 	},
 
 	setLogAndPass : function (user) {
-		if(service.getLocalStorage("login") == null) {
-			service.setLocalStorage("login", user.login);
-			service.setLocalStorage("password", user.password);
+		if(this.service.getLocalStorage("login") == null) {
+			this.service.setLocalStorage("login", user.login);
+			this.service.setLocalStorage("password", user.password);
 		} else {
 			return;
 		}
 	},
+
+	showGallery: function(){
+		this.gallery.initGallery();
+	},
+
+	ReEntry : function () { //проверка повторного входа.
+		if (this.service.getLocalStorage("valid") !== null) {
+			this.logIn();  
+		}
+  },
 
 	runComponent : function (event) {
 		event.preventDefault();
@@ -59,62 +68,42 @@ LoginModule.prototype = {
 	},
 
 	initWindow : function (result) {
-		(result) ? this.logIn() : service.showElement(this.alertWindow);
+		(result) ? this.logIn() : this.service.showElement(this.alertWindow);
+	},
+
+	checkListeners : function (item) {
+		(!item == undefined) && this.initListeners();
 	},
 
 	logIn : function () {	
-		service.hideElement(this.loginForm);
-		service.showElement(this.galleryWindow);
-		service.showElement(this.mainMenu);
-		service.setLocalStorage("valid", "yes");	
-		this.changeBtnColor(this.userGalleryBtn, this.userDataBtn);
-		this.showGallery();
+		this.service.hideElement(this.loginForm);
+		this.service.showElement(this.galleryWindow);
+		this.service.showElement(this.mainMenu);
+		this.service.setLocalStorage("valid", "yes");	
+		this.serviceUser.changeBtnColor(this.userGalleryBtn, this.userDataBtn);
 	},
 
 	logOut : function () {
-		service.hideElement(this.galleryWindow);
-		service.hideElement(this.mainMenu);
-		service.showElement(this.loginForm);
+		this.service.hideElement(this.service.determineOpenWindow(this.galleryWindow, this.userWindow));
+		this.service.hideElement(this.mainMenu);
+		this.service.showElement(this.loginForm);
 		localStorage.removeItem("valid");
+		this.service.removeListeners()
 	},
 
 	showUserData : function (){
-		service.showElement(this.userWindow);
-		service.hideElement(this.galleryWindow)
-		this.inputEmail.value = service.getLocalStorage("login");
-		this.inputPassword.value = service.getLocalStorage("password");
-		this.changeBtnColor(this.userDataBtn, this.userGalleryBtn);
+		this.service.showElement(this.userWindow);
+		this.service.hideElement(this.galleryWindow)
+		this.inputEmail.value = this.service.getLocalStorage("login");
+		this.inputPassword.value = this.service.getLocalStorage("password");
+		this.serviceUser.changeBtnColor(this.userDataBtn, this.userGalleryBtn);
 	},
 
 	showGalleryData : function () {
-		service.hideElement(this.userWindow);
-		service.showElement(this.galleryWindow);
-		this.changeBtnColor(this.userGalleryBtn, this.userDataBtn);
-	},
-
-	showOrHidePassword : function () {
-		let type = this.inputPassword.getAttribute("type");
-		if (type == "password") {
-			this.inputPassword.type = "text";
-			this.showPasswordBtn.innerHTML = "Спрятать пароль";
-		} else {
-			this.inputPassword.type = "password";
-			this.showPasswordBtn.innerHTML = "Показать пароль";
-		}
-	},
-
-	changeBtnColor : function (param, item) {
-		param.classList.remove("text-dark");
-		if(!item.classList.contains("text-dark")) {
-			item.classList.add("text-dark");
-		}
-	},
-
-	showGallery: function(){
-		this.gallery.initGallery();
+		this.service.hideElement(this.userWindow);
+		this.service.showElement(this.galleryWindow);
+		this.serviceUser.changeBtnColor(this.userGalleryBtn, this.userDataBtn);
 	}
-
-	
 }
 
 
